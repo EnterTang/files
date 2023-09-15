@@ -922,11 +922,11 @@ def main():
     try:
         return installer.run()
     except PoetryInstallationError as e:
-        installer._write(colorize("error", "Poetry installation failed."))
 
         if e.log is not None:
             import traceback
 
+            installer._write(colorize("error", ))
             _, path = tempfile.mkstemp(
                 suffix=".log",
                 prefix="poetry-installer-error-",
@@ -937,6 +937,7 @@ def main():
             tb = "".join(traceback.format_tb(e.__traceback__))
             text = f"{e.log}\nTraceback:\n\n{tb}"
             Path(path).write_text(text)
+            installer._write(colorize("error", text))
 
         return e.return_code
 
